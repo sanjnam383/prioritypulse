@@ -6,6 +6,7 @@
 <title>FeaturePulse — AI Feature Prioritisation</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root {
     --bg: #0d0c0a;
@@ -251,6 +252,13 @@
         </thead>
         <tbody id="priorityTableBody"></tbody>
       </table>
+    </div>
+
+    <!-- Export Button -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <button class="btn btn-outline" onclick="exportPDF()" id="exportBtn" style="display:flex;align-items:center;gap:8px;">
+        ↓ Export PDF Report
+      </button>
     </div>
 
     <!-- Scatter Chart -->
@@ -692,6 +700,235 @@ No bullet points. No headers. Plain paragraphs only. Be direct and opinionated.`
   }
 
   btn.disabled = false; btn.innerHTML = '✦ Get Recommendation';
+}
+
+// ─── EXPORT PDF ──────────────────────────────────────
+async function exportPDF() {
+  if (!currentFeatures.length) { alert('Please score features first.'); return; }
+  const btn = document.getElementById('exportBtn');
+  btn.textContent = 'Generating...';
+  btn.disabled = true;
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const W = 210, margin = 18, contentW = W - margin * 2;
+  let y = 0;
+
+  // Helper functions
+  const hex = (color) => color;
+  function setFont(style, size, color) {
+    doc.setFont('helvetica', style);
+    doc.setFontSize(size);
+    doc.setTextColor(color || '#1a1814');
+  }
+  function addLine(color, thickness) {
+    doc.setDrawColor(color || '#e0ddd8');
+    doc.setLineWidth(thickness || 0.3);
+    doc.line(margin, y, W - margin, y);
+    y += 4;
+  }
+  function checkPage(needed) {
+    if (y + needed > 270) { doc.addPage(); y = 20; }
+  }
+
+  // ── COVER HEADER ──
+  doc.setFillColor('#0d0c0a');
+  doc.rect(0, 0, W, 48, 'F');
+  doc.setFillColor('#f5a623');
+  doc.rect(0, 44, W, 4, 'F');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(26);
+  doc.setTextColor('#f0ece4');
+  doc.text('FeaturePulse', margin, 22);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(11);
+  doc.setTextColor('#7a7568');
+  doc.text('Feature Prioritisation Report', margin, 32);
+
+  doc.setFontSize(10);
+  doc.setTextColor('#4a4840');
+  doc.text(new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), W - margin, 32, { align: 'right' });
+
+  y = 60;
+
+  // ── GRADE SUMMARY ──
+  const gradeLetter = document.getElementById('gradeLetter').textContent;
+  const gradeTitle = document.getElementById('gradeTitle').textContent;
+  const gradeDesc = document.getElementById('gradeDesc').textContent;
+  const gradeColor = gradeLetter === 'A' ? '#5ce07a' : gradeLetter === 'B' ? '#f5a623' : gradeLetter === 'C' ? '#5ca8e0' : '#e05c5c';
+
+  // Grade circle
+  doc.setFillColor(gradeColor);
+  doc.circle(margin + 10, y + 6, 10, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor('#0d0c0a');
+  doc.text(gradeLetter, margin + 10, y + 10, { align: 'center' });
+
+  // Grade info
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(14);
+  doc.setTextColor('#1a1814');
+  doc.text(gradeTitle, margin + 26, y + 4);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.setTextColor('#6a6560');
+  const descLines = doc.splitTextToSize(gradeDesc, contentW - 30);
+  doc.text(descLines, margin + 26, y + 11);
+
+  y += 30;
+  addLine('#e0ddd8', 0.3);
+
+  // ── PRIORITY TABLE ──
+  setFont('bold', 13, '#1a1814');
+  doc.text('Priority Stack Ranking', margin, y);
+  y += 8;
+
+  // Table header
+  doc.setFillColor('#1e1c18');
+  doc.rect(margin, y, contentW, 8, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor('#f5a623');
+  doc.text('#', margin + 3, y + 5.5);
+  doc.text('Feature', margin + 12, y + 5.5);
+  doc.text('RICE', margin + 100, y + 5.5);
+  doc.text('Tier', margin + 120, y + 5.5);
+  doc.text('Score', margin + 152, y + 5.5);
+  y += 10;
+
+  // Table rows
+  currentFeatures.forEach((f, i) => {
+    checkPage(14);
+    const rowBg = i % 2 === 0 ? '#faf9f7' : '#ffffff';
+    doc.setFillColor(rowBg);
+    doc.rect(margin, y - 1, contentW, 12, 'F');
+
+    // Rank
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(i < 3 ? '#f5a623' : '#9a9590');
+    doc.text(String(f.rank), margin + 4, y + 7);
+
+    // Name
+    doc.setFont('helvetica', i < 3 ? 'bold' : 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor('#1a1814');
+    const nameShort = f.name.length > 32 ? f.name.substring(0, 32) + '...' : f.name;
+    doc.text(nameShort, margin + 12, y + 5);
+
+    // RICE sub info
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor('#9a9590');
+    doc.text('R:' + f.reach + ' I:' + f.impact + ' C:' + f.confidence + '% E:' + f.effort + ' A:' + f.alignment, margin + 12, y + 10);
+
+    // RICE score
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.setTextColor(i === 0 ? '#f5a623' : '#1a1814');
+    doc.text(String(f.weighted), margin + 100, y + 7);
+
+    // Tier badge
+    const tierColors = { 'Do Now': '#5ce07a', 'Plan Next': '#f5a623', 'Do Later': '#5ca8e0', 'Reconsider': '#e05c5c' };
+    const tc = tierColors[f.tier] || '#9a9590';
+    doc.setFillColor(tc + '22');
+    doc.roundedRect(margin + 116, y + 1, 32, 8, 2, 2, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.setTextColor(tc);
+    doc.text(f.tier, margin + 132, y + 6.5, { align: 'center' });
+
+    // Score bar
+    const barW = 36;
+    doc.setFillColor('#e8e5e0');
+    doc.roundedRect(margin + 152, y + 3, barW, 4, 1, 1, 'F');
+    doc.setFillColor(i < 3 ? '#f5a623' : '#9a9590');
+    doc.roundedRect(margin + 152, y + 3, barW * f.pct / 100, 4, 1, 1, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor('#9a9590');
+    doc.text(f.pct + '%', margin + 152 + barW + 2, y + 6.5);
+
+    y += 13;
+  });
+
+  y += 4;
+  addLine();
+
+  // ── QUADRANT SUMMARY ──
+  checkPage(40);
+  setFont('bold', 13, '#1a1814');
+  doc.text('Feature Matrix Summary', margin, y);
+  y += 8;
+
+  const quadrants = [
+    { label: 'Do Now', color: '#5ce07a', features: currentFeatures.filter(f => f.tier === 'Do Now') },
+    { label: 'Plan Next', color: '#f5a623', features: currentFeatures.filter(f => f.tier === 'Plan Next') },
+    { label: 'Do Later', color: '#5ca8e0', features: currentFeatures.filter(f => f.tier === 'Do Later') },
+    { label: 'Reconsider', color: '#e05c5c', features: currentFeatures.filter(f => f.tier === 'Reconsider') },
+  ];
+
+  quadrants.forEach(q => {
+    if (!q.features.length) return;
+    checkPage(16);
+    doc.setFillColor(q.color + '18');
+    doc.roundedRect(margin, y, contentW, 12 + q.features.length * 6, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.setTextColor(q.color);
+    doc.text(q.label + ' (' + q.features.length + ')', margin + 4, y + 7);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor('#4a4840');
+    q.features.forEach((f, i) => {
+      doc.text('· ' + f.name + ' (Score: ' + f.weighted + ')', margin + 8, y + 13 + i * 6);
+    });
+    y += 14 + q.features.length * 6 + 4;
+  });
+
+  // ── AI INSIGHT ──
+  const insightText = document.getElementById('insightText').textContent;
+  if (insightText && insightText !== 'Thinking...') {
+    checkPage(20);
+    addLine();
+    setFont('bold', 13, '#1a1814');
+    doc.text('AI Strategic Recommendation', margin, y);
+    y += 8;
+    doc.setFillColor('#1e1c1814');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor('#3a3830');
+    const lines = doc.splitTextToSize(insightText, contentW);
+    lines.forEach(line => {
+      checkPage(6);
+      doc.text(line, margin, y);
+      y += 5.5;
+    });
+  }
+
+  // ── FOOTER on each page ──
+  const pageCount = doc.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFillColor('#0d0c0a');
+    doc.rect(0, 285, W, 12, 'F');
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor('#4a4840');
+    doc.text('FeaturePulse · Generated by Sanjana M', margin, 292);
+    doc.text('Page ' + i + ' of ' + pageCount, W - margin, 292, { align: 'right' });
+  }
+
+  // Save
+  const dateStr = new Date().toISOString().split('T')[0];
+  doc.save('FeaturePulse-Report-' + dateStr + '.pdf');
+
+  btn.textContent = '↓ Export PDF Report';
+  btn.disabled = false;
 }
 
 // Init manual with 4 rows
