@@ -256,17 +256,6 @@
       </table>
     </div>
 
-    <!-- Export Button -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Ready to share?</div>
-        <div style="font-size:13px;color:var(--text);">Export a full PDF report with grade, ranked table, matrix chart and AI insight.</div>
-      </div>
-      <button onclick="exportPDF()" id="exportBtn" style="font-family:IBM Plex Mono,monospace;font-size:12px;letter-spacing:0.05em;padding:12px 28px;border-radius:6px;border:1px solid var(--amber);background:rgba(245,166,35,0.08);color:var(--amber);cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.15s;font-weight:500;">
-        <span style="font-size:16px;">↓</span> Export PDF Report
-      </button>
-    </div>
-
     <!-- Scatter Chart -->
     <div class="card">
       <div class="card-label">Effort vs Impact Matrix</div>
@@ -277,6 +266,17 @@
         <span style="font-size:11px;color:var(--blue)">● Do Later — low impact, low effort</span>
         <span style="font-size:11px;color:var(--red)">● Reconsider — low impact, high effort</span>
       </div>
+    </div>
+
+    <!-- Export Button -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:18px 24px;background:var(--surface);border:1px solid var(--amber);border-radius:10px;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">↓ Ready to share?</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.5;">Export a full PDF report — health grade, priority table,<br>impact matrix chart and AI recommendation included.</div>
+      </div>
+      <button onclick="exportPDF()" id="exportBtn" style="font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.05em;padding:14px 32px;border-radius:6px;border:none;background:var(--amber);color:#0d0c0a;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.15s;font-weight:500;white-space:nowrap;flex-shrink:0;">
+        <span style="font-size:18px;">↓</span> Export PDF
+      </button>
     </div>
 
     <!-- AI Recommendation -->
