@@ -336,6 +336,11 @@ document.getElementById('saveKey').addEventListener('change', function() {
   else { sessionStorage.removeItem('pp_key'); document.getElementById('savedBadge').style.display = 'none'; }
 });
 document.getElementById('apiKey').addEventListener('input', function() {
+  document.getElementById('apiKey2').value = this.value;
+  if (document.getElementById('saveKey').checked) sessionStorage.setItem('pp_key', this.value.trim());
+});
+document.getElementById('apiKey2').addEventListener('input', function() {
+  document.getElementById('apiKey').value = this.value;
   if (document.getElementById('saveKey').checked) sessionStorage.setItem('pp_key', this.value.trim());
 });
 const savedKey = sessionStorage.getItem('pp_key');
@@ -595,7 +600,7 @@ Be strict and realistic. Don't inflate scores. High effort means 8-10. Quick win
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'meta-llama/llama-3.3-70b-instruct:free', messages: [{ role: 'user', content: prompt }], max_tokens: 1000 })
+      body: JSON.stringify({ model: 'meta-llama/llama-3.3-70b-instruct:free', messages: [{ role: 'user', content: prompt }] })
     });
     const data = await res.json();
     const raw = data.choices?.[0]?.message?.content || '';
@@ -606,7 +611,7 @@ Be strict and realistic. Don't inflate scores. High effort means 8-10. Quick win
     currentFeatures = scoreFeatures(features);
     renderResults(currentFeatures);
   } catch (e) {
-    alert('AI scoring failed. Check your API key or try again. Error: ' + e.message);
+    alert('AI scoring failed: ' + e.message + '. Check your API key or try again.');
   }
 
   btn.disabled = false; btn.innerHTML = '✦ Score with AI';
@@ -653,12 +658,17 @@ No bullet points. No headers. Plain paragraphs only. Be direct and opinionated.`
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'meta-llama/llama-3.3-70b-instruct:free', messages: [{ role: 'user', content: prompt }], max_tokens: 1000 })
+      body: JSON.stringify({ model: 'meta-llama/llama-3.3-70b-instruct:free', messages: [{ role: 'user', content: prompt }] })
     });
     const data = await res.json();
-    text.textContent = data.choices?.[0]?.message?.content || 'No response. Try again.';
+    if (data.error) {
+      text.textContent = 'API Error: ' + (data.error.message || JSON.stringify(data.error));
+    } else {
+      const content = data.choices?.[0]?.message?.content;
+      text.textContent = content || 'No response received. Please try again.';
+    }
   } catch (e) {
-    text.textContent = 'Error. Check your API key and try again.';
+    text.textContent = 'Network error: ' + e.message + '. Check your API key and try again.';
   }
 
   btn.disabled = false; btn.innerHTML = '✦ Get Recommendation';
