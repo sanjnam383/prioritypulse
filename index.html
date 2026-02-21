@@ -151,6 +151,8 @@
   .check-row span { font-size: 11px; color: var(--green); display: none; }
 
   footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted2); letter-spacing: 0.05em; }
+  #exportBtn:hover { background: rgba(245,166,35,0.18) !important; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,166,35,0.15); }
+  #exportBtn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 </style>
 </head>
 <body>
@@ -255,9 +257,13 @@
     </div>
 
     <!-- Export Button -->
-    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
-      <button class="btn btn-outline" onclick="exportPDF()" id="exportBtn" style="display:flex;align-items:center;gap:8px;">
-        ↓ Export PDF Report
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Ready to share?</div>
+        <div style="font-size:13px;color:var(--text);">Export a full PDF report with grade, ranked table, matrix chart and AI insight.</div>
+      </div>
+      <button onclick="exportPDF()" id="exportBtn" style="font-family:IBM Plex Mono,monospace;font-size:12px;letter-spacing:0.05em;padding:12px 28px;border-radius:6px;border:1px solid var(--amber);background:rgba(245,166,35,0.08);color:var(--amber);cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 0.15s;font-weight:500;">
+        <span style="font-size:16px;">↓</span> Export PDF Report
       </button>
     </div>
 
@@ -890,6 +896,21 @@ async function exportPDF() {
     y += 14 + q.features.length * 6 + 4;
   });
 
+  // ── EFFORT VS IMPACT MATRIX (chart screenshot) ──
+  checkPage(90);
+  addLine();
+  setFont('bold', 13, '#1a1814');
+  doc.text('Effort vs Impact Matrix', margin, y);
+  y += 6;
+  try {
+    const canvas = document.getElementById('scatterChart');
+    const chartImg = canvas.toDataURL('image/png');
+    const chartH = 70;
+    const chartW = contentW;
+    doc.addImage(chartImg, 'PNG', margin, y, chartW, chartH);
+    y += chartH + 6;
+  } catch(e) { y += 4; }
+
   // ── AI INSIGHT ──
   const insightText = document.getElementById('insightText').textContent;
   if (insightText && insightText !== 'Thinking...') {
@@ -898,7 +919,6 @@ async function exportPDF() {
     setFont('bold', 13, '#1a1814');
     doc.text('AI Strategic Recommendation', margin, y);
     y += 8;
-    doc.setFillColor('#1e1c1814');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     doc.setTextColor('#3a3830');
