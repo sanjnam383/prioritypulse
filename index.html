@@ -194,9 +194,9 @@
         <label for="saveKey">Remember for this session</label>
         <span id="savedBadge">✓ saved</span>
       </div>
-      <div class="btn-row">
-        <button class="btn btn-amber" onclick="runAIScoring()" id="aiScoringBtn">✦ Score with AI</button>
-        <button class="btn btn-outline" onclick="loadAISample()">Load Sample</button>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;flex-wrap:wrap;gap:10px;">
+        <button class="btn btn-amber" onclick="runAIScoring()" id="aiScoringBtn" style="font-size:14px;padding:13px 32px;">✦ Score with AI</button>
+        <button class="btn btn-outline" onclick="loadAISample()" style="font-size:12px;">Try Sample Data →</button>
       </div>
     </div>
   </div>
@@ -425,7 +425,6 @@ function loadManualSample() {
     ['Mobile App', 8, 8, 50, 10, 6],
   ];
   samples.forEach(s => addFeatureRow(...s));
-  calculateManual();
 }
 
 // ─── SCORING ─────────────────────────────────────────
@@ -636,6 +635,7 @@ Be strict and realistic. Don't inflate scores. High effort means 8-10. Quick win
     if (!features) throw new Error('All models busy — wait 60 seconds and try again');
     currentFeatures = scoreFeatures(features);
     renderResults(currentFeatures);
+    setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
   } catch (e) {
     alert('AI scoring failed: ' + e.message + '. Check your API key or try again.');
   }
