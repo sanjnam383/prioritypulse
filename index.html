@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PriorityPulse — AI Feature Prioritisation</title>
+<title>FeaturePulse — AI Feature Prioritisation</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
@@ -157,8 +157,8 @@
 
   <header class="header">
     <div class="eyebrow">PM Toolkit · AI-Powered</div>
-    <h1>Priority<em>Pulse</em></h1>
-    <p class="tagline">Let AI score your backlog. You make the call.</p>
+    <h1>Feature<em>Pulse</em></h1>
+    <p class="tagline">Score, rank and prioritise your features with AI.</p>
   </header>
 
   <!-- Mode Tabs -->
@@ -290,7 +290,7 @@
 
   </div>
 
-  <footer>Made by Sanjana M · Turning PM chaos into clarity, one sprint at a time</footer>
+  <footer>Sanjana M · PM who builds what she wishes existed</footer>
 </div>
 
 <script>
@@ -597,17 +597,29 @@ Return ONLY a valid JSON array. No explanation, no markdown, no preamble. Exampl
 Be strict and realistic. Don't inflate scores. High effort means 8-10. Quick wins should have effort 1-4.`;
 
   try {
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'meta-llama/llama-3.3-70b-instruct:free', messages: [{ role: 'user', content: prompt }] })
-    });
-    const data = await res.json();
-    const raw = data.choices?.[0]?.message?.content || '';
-    const match = raw.match(/\[[\s\S]*\]/);
-    if (!match) throw new Error('No JSON array found');
-    const features = JSON.parse(match[0]);
-    if (!features.length) throw new Error('Empty features array');
+    const scoringModels = [
+      'meta-llama/llama-3.3-70b-instruct:free',
+      'mistralai/mistral-7b-instruct:free',
+      'google/gemma-2-9b-it:free',
+    ];
+    let features = null;
+    for (const model of scoringModels) {
+      try {
+        const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model, messages: [{ role: 'user', content: prompt }] })
+        });
+        const data = await res.json();
+        if (data.error) continue;
+        const raw = data.choices?.[0]?.message?.content || '';
+        const match = raw.match(/\[[\s\S]*\]/);
+        if (!match) continue;
+        const parsed = JSON.parse(match[0]);
+        if (parsed.length) { features = parsed; break; }
+      } catch (e) { continue; }
+    }
+    if (!features) throw new Error('All models busy — wait 60 seconds and try again');
     currentFeatures = scoreFeatures(features);
     renderResults(currentFeatures);
   } catch (e) {
@@ -655,18 +667,26 @@ Give a no-fluff strategic assessment in exactly 3 paragraphs:
 No bullet points. No headers. Plain paragraphs only. Be direct and opinionated.`;
 
   try {
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'meta-llama/llama-3.3-70b-instruct:free', messages: [{ role: 'user', content: prompt }] })
-    });
-    const data = await res.json();
-    if (data.error) {
-      text.textContent = 'API Error: ' + (data.error.message || JSON.stringify(data.error));
-    } else {
-      const content = data.choices?.[0]?.message?.content;
-      text.textContent = content || 'No response received. Please try again.';
+    const models = [
+      'meta-llama/llama-3.3-70b-instruct:free',
+      'mistralai/mistral-7b-instruct:free',
+      'google/gemma-2-9b-it:free',
+    ];
+    let success = false;
+    for (const model of models) {
+      try {
+        const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model, messages: [{ role: 'user', content: prompt }] })
+        });
+        const data = await res.json();
+        if (data.error) continue;
+        const content = data.choices?.[0]?.message?.content;
+        if (content) { text.textContent = content; success = true; break; }
+      } catch (e) { continue; }
     }
+    if (!success) text.textContent = 'All models are currently busy. Please wait 60 seconds and try again.';
   } catch (e) {
     text.textContent = 'Network error: ' + e.message + '. Check your API key and try again.';
   }
