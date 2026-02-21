@@ -2,7 +2,7 @@
 
 > Score, rank and prioritise your features with AI. Built for PMs who are tired of gut-feel backlogs.
 
-🔗 **Live Demo:** [featurepulse.vercel.app](https://featurepulse.vercel.app)
+🔗 **Live Demo:** [featurepulse.vercel.app](https://prioritypulse-flame.vercel.app/)
 
 ---
 
