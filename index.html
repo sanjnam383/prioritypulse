@@ -720,15 +720,22 @@ async function exportPDF() {
   const W = 210, margin = 18, contentW = W - margin * 2;
   let y = 0;
 
+  // Helper function to convert hex to RGB
+  function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [0, 0, 0];
+  }
+
   // Helper functions
-  const hex = (color) => color;
   function setFont(style, size, color) {
     doc.setFont('helvetica', style);
     doc.setFontSize(size);
-    doc.setTextColor(color || '#1a1814');
+    const rgb = hexToRgb(color || '#1a1814');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   }
   function addLine(color, thickness) {
-    doc.setDrawColor(color || '#e0ddd8');
+    const rgb = hexToRgb(color || '#e0ddd8');
+    doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
     doc.setLineWidth(thickness || 0.3);
     doc.line(margin, y, W - margin, y);
     y += 4;
@@ -738,23 +745,28 @@ async function exportPDF() {
   }
 
   // ── COVER HEADER ──
-  doc.setFillColor('#0d0c0a');
+  let rgb = hexToRgb('#0d0c0a');
+  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
   doc.rect(0, 0, W, 48, 'F');
-  doc.setFillColor('#f5a623');
+  rgb = hexToRgb('#f5a623');
+  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
   doc.rect(0, 44, W, 4, 'F');
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(26);
-  doc.setTextColor('#f0ece4');
+  rgb = hexToRgb('#f0ece4');
+  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   doc.text('FeaturePulse', margin, 22);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(11);
-  doc.setTextColor('#7a7568');
+  rgb = hexToRgb('#7a7568');
+  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   doc.text('Feature Prioritisation Report', margin, 32);
 
   doc.setFontSize(10);
-  doc.setTextColor('#4a4840');
+  rgb = hexToRgb('#4a4840');
+  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   doc.text(new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), W - margin, 32, { align: 'right' });
 
   y = 60;
@@ -766,22 +778,26 @@ async function exportPDF() {
   const gradeColor = gradeLetter === 'A' ? '#5ce07a' : gradeLetter === 'B' ? '#f5a623' : gradeLetter === 'C' ? '#5ca8e0' : '#e05c5c';
 
   // Grade circle
-  doc.setFillColor(gradeColor);
+  rgb = hexToRgb(gradeColor);
+  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
   doc.circle(margin + 10, y + 6, 10, 'F');
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
-  doc.setTextColor('#0d0c0a');
+  rgb = hexToRgb('#0d0c0a');
+  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   doc.text(gradeLetter, margin + 10, y + 10, { align: 'center' });
 
   // Grade info
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(14);
-  doc.setTextColor('#1a1814');
+  rgb = hexToRgb('#1a1814');
+  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   doc.text(gradeTitle, margin + 26, y + 4);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
-  doc.setTextColor('#6a6560');
+  rgb = hexToRgb('#6a6560');
+  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   const descLines = doc.splitTextToSize(gradeDesc, contentW - 30);
   doc.text(descLines, margin + 26, y + 11);
 
@@ -794,11 +810,13 @@ async function exportPDF() {
   y += 8;
 
   // Table header
-  doc.setFillColor('#1e1c18');
+  rgb = hexToRgb('#1e1c18');
+  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
   doc.rect(margin, y, contentW, 8, 'F');
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
-  doc.setTextColor('#f5a623');
+  rgb = hexToRgb('#f5a623');
+  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
   doc.text('#', margin + 3, y + 5.5);
   doc.text('Feature', margin + 12, y + 5.5);
   doc.text('RICE', margin + 100, y + 5.5);
@@ -810,56 +828,70 @@ async function exportPDF() {
   currentFeatures.forEach((f, i) => {
     checkPage(14);
     const rowBg = i % 2 === 0 ? '#faf9f7' : '#ffffff';
-    doc.setFillColor(rowBg);
+    rgb = hexToRgb(rowBg);
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
     doc.rect(margin, y - 1, contentW, 12, 'F');
 
     // Rank
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
-    doc.setTextColor(i < 3 ? '#f5a623' : '#9a9590');
+    rgb = hexToRgb(i < 3 ? '#f5a623' : '#9a9590');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     doc.text(String(f.rank), margin + 4, y + 7);
 
     // Name
     doc.setFont('helvetica', i < 3 ? 'bold' : 'normal');
     doc.setFontSize(9);
-    doc.setTextColor('#1a1814');
+    rgb = hexToRgb('#1a1814');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     const nameShort = f.name.length > 32 ? f.name.substring(0, 32) + '...' : f.name;
     doc.text(nameShort, margin + 12, y + 5);
 
     // RICE sub info
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
-    doc.setTextColor('#9a9590');
+    rgb = hexToRgb('#9a9590');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     doc.text('R:' + f.reach + ' I:' + f.impact + ' C:' + f.confidence + '% E:' + f.effort + ' A:' + f.alignment, margin + 12, y + 10);
 
     // RICE score
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
-    doc.setTextColor(i === 0 ? '#f5a623' : '#1a1814');
+    rgb = hexToRgb(i === 0 ? '#f5a623' : '#1a1814');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     doc.text(String(f.weighted), margin + 100, y + 7);
 
     // Tier badge
     const tierColors = { 'Do Now': '#5ce07a', 'Plan Next': '#f5a623', 'Do Later': '#5ca8e0', 'Reconsider': '#e05c5c' };
     const tc = tierColors[f.tier] || '#9a9590';
-    doc.setFillColor(tc + '22');
+    const rgbTc = hexToRgb(tc);
+    rgb = hexToRgb(tc);
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+    doc.setDrawColor(255, 255, 255);
+    doc.setFillOpacity(0.13);
     doc.roundedRect(margin + 116, y + 1, 32, 8, 2, 2, 'F');
+    doc.setFillOpacity(1);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7);
-    doc.setTextColor(tc);
-    doc.text(f.tier, margin + 132, y + 6.5, { align: 'center' });
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+    doc.text(f.tier, margin + 119, y + 6);
 
     // Score bar
-    const barW = 36;
-    doc.setFillColor('#e8e5e0');
-    doc.roundedRect(margin + 152, y + 3, barW, 4, 1, 1, 'F');
-    doc.setFillColor(i < 3 ? '#f5a623' : '#9a9590');
-    doc.roundedRect(margin + 152, y + 3, barW * f.pct / 100, 4, 1, 1, 'F');
+    rgb = hexToRgb('#e8e5e0');
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+    doc.rect(margin + 152, y + 2, 40, 4, 'F');
+    rgb = hexToRgb(i < 3 ? '#f5a623' : '#9a9590');
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+    const barW = (f.weighted / Math.max(...currentFeatures.map(x => x.weighted))) * 40;
+    doc.rect(margin + 152, y + 2, barW, 4, 'F');
+
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7);
-    doc.setTextColor('#9a9590');
-    doc.text(f.pct + '%', margin + 152 + barW + 2, y + 6.5);
+    rgb = hexToRgb('#9a9590');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+    doc.text(String(Math.round(f.weighted)), margin + 157, y + 6);
 
-    y += 13;
+    y += 14;
   });
 
   y += 4;
@@ -881,15 +913,20 @@ async function exportPDF() {
   quadrants.forEach(q => {
     if (!q.features.length) return;
     checkPage(16);
-    doc.setFillColor(q.color + '18');
+    rgb = hexToRgb(q.color);
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+    doc.setFillOpacity(0.09);
     doc.roundedRect(margin, y, contentW, 12 + q.features.length * 6, 3, 3, 'F');
+    doc.setFillOpacity(1);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
-    doc.setTextColor(q.color);
+    rgb = hexToRgb(q.color);
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     doc.text(q.label + ' (' + q.features.length + ')', margin + 4, y + 7);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor('#4a4840');
+    rgb = hexToRgb('#4a4840');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     q.features.forEach((f, i) => {
       doc.text('· ' + f.name + ' (Score: ' + f.weighted + ')', margin + 8, y + 13 + i * 6);
     });
@@ -921,7 +958,8 @@ async function exportPDF() {
     y += 8;
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
-    doc.setTextColor('#3a3830');
+    rgb = hexToRgb('#3a3830');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     const lines = doc.splitTextToSize(insightText, contentW);
     lines.forEach(line => {
       checkPage(6);
@@ -934,11 +972,13 @@ async function exportPDF() {
   const pageCount = doc.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
-    doc.setFillColor('#0d0c0a');
+    rgb = hexToRgb('#0d0c0a');
+    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
     doc.rect(0, 285, W, 12, 'F');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    doc.setTextColor('#4a4840');
+    rgb = hexToRgb('#4a4840');
+    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
     doc.text('FeaturePulse · Generated by Sanjana M', margin, 292);
     doc.text('Page ' + i + ' of ' + pageCount, W - margin, 292, { align: 'right' });
   }
