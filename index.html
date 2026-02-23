@@ -34,7 +34,6 @@
     min-height: 100vh;
   }
 
-  /* Noise texture overlay */
   body::before {
     content: '';
     position: fixed; inset: 0;
@@ -44,26 +43,22 @@
 
   .wrap { max-width: 960px; margin: 0 auto; padding: 56px 24px 80px; position: relative; z-index: 1; }
 
-  /* Header */
   .header { margin-bottom: 56px; border-bottom: 1px solid var(--border); padding-bottom: 32px; }
   .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 16px; }
   h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 7vw, 64px); font-weight: 900; line-height: 1.05; color: var(--text); margin-bottom: 14px; }
   h1 em { font-style: italic; color: var(--amber); }
   .tagline { font-size: 14px; color: var(--muted); font-weight: 300; letter-spacing: 0.02em; }
 
-  /* Mode toggle */
   .mode-tabs { display: flex; gap: 0; margin-bottom: 32px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; width: fit-content; }
   .mode-tab { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.05em; padding: 10px 24px; background: transparent; color: var(--muted); border: none; cursor: pointer; transition: all 0.15s; }
   .mode-tab.active { background: var(--amber); color: #0d0c0a; font-weight: 500; }
   .mode-tab:hover:not(.active) { color: var(--text); background: var(--surface2); }
 
-  /* Cards */
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 28px; margin-bottom: 20px; }
   .card:hover { border-color: var(--border2); }
   .card-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
   .card-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* AI Mode */
   .ai-input-area { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--text); resize: vertical; min-height: 140px; outline: none; transition: border-color 0.2s; line-height: 1.7; }
   .ai-input-area:focus { border-color: var(--amber); }
   .ai-input-area::placeholder { color: var(--muted2); }
@@ -75,12 +70,10 @@
   .field-input:focus { border-color: var(--amber); }
   .field-input::placeholder { color: var(--muted2); }
 
-  /* API key */
   .key-row { display: flex; gap: 8px; margin-top: 12px; }
   .key-row input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); outline: none; transition: border-color 0.2s; }
   .key-row input:focus { border-color: var(--amber); color: var(--text); }
 
-  /* Manual mode */
   .feature-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
   .feature-row { display: grid; grid-template-columns: 2fr 80px 80px 80px 80px 80px 36px; gap: 8px; align-items: center; }
   .feature-row.header-row { margin-bottom: 4px; }
@@ -93,7 +86,6 @@
   .del-btn { background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); font-size: 14px; cursor: pointer; width: 36px; height: 36px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
   .del-btn:hover { border-color: var(--red); color: var(--red); }
 
-  /* Buttons */
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
   .btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.05em; padding: 11px 24px; border-radius: 6px; border: none; cursor: pointer; transition: all 0.15s; }
   .btn-amber { background: var(--amber); color: #0d0c0a; font-weight: 500; }
@@ -102,11 +94,9 @@
   .btn-outline { background: transparent; color: var(--muted); border: 1px solid var(--border); }
   .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
 
-  /* Results */
   .results { display: none; }
   .results.show { display: block; }
 
-  /* Portfolio grade */
   .grade-banner { display: flex; align-items: center; gap: 28px; padding: 24px 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 20px; }
   .grade-circle { width: 80px; height: 80px; border-radius: 50%; border: 3px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
   .grade-letter { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 900; line-height: 1; }
@@ -117,7 +107,6 @@
   .grade-pills { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .pill { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 3px 10px; border-radius: 100px; border: 1px solid; }
 
-  /* Priority table */
   .priority-table { width: 100%; border-collapse: collapse; }
   .priority-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
   .priority-table td { padding: 12px; border-bottom: 1px solid var(--border2); font-size: 13px; vertical-align: middle; }
@@ -133,10 +122,8 @@
   .tier-later { background: rgba(92,168,224,0.12); color: var(--blue); border: 1px solid rgba(92,168,224,0.2); }
   .tier-cut { background: rgba(224,92,92,0.1); color: var(--red); border: 1px solid rgba(224,92,92,0.2); }
 
-  /* Chart */
   .chart-wrap { position: relative; height: 340px; }
 
-  /* AI insight box */
   .insight-box { background: var(--surface2); border: 1px solid rgba(245,166,35,0.15); border-radius: 8px; padding: 20px; margin-top: 16px; display: none; animation: fadeUp 0.4s ease; }
   .insight-box.show { display: block; }
   .insight-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
@@ -144,7 +131,6 @@
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* Checkbox row */
   .check-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
   .check-row input { accent-color: var(--amber); width: 13px; height: 13px; cursor: pointer; }
   .check-row label { font-size: 12px; color: var(--muted); cursor: pointer; }
@@ -164,7 +150,6 @@
     <p class="tagline">Score, rank and prioritise your features with AI.</p>
   </header>
 
-  <!-- Mode Tabs -->
   <div class="mode-tabs">
     <button class="mode-tab active" onclick="setMode('ai')" id="tab-ai">✦ AI Mode</button>
     <button class="mode-tab" onclick="setMode('manual')" id="tab-manual">Manual Mode</button>
@@ -226,7 +211,6 @@
   <!-- RESULTS -->
   <div class="results" id="results">
 
-    <!-- Grade Banner -->
     <div class="grade-banner" id="gradeBanner">
       <div class="grade-circle" id="gradeCircle">
         <div class="grade-letter" id="gradeLetter">—</div>
@@ -239,7 +223,6 @@
       </div>
     </div>
 
-    <!-- Priority Table -->
     <div class="card">
       <div class="card-label">Priority Stack Ranking</div>
       <table class="priority-table" id="priorityTable">
@@ -256,7 +239,6 @@
       </table>
     </div>
 
-    <!-- Scatter Chart -->
     <div class="card">
       <div class="card-label">Effort vs Impact Matrix</div>
       <div class="chart-wrap"><canvas id="scatterChart"></canvas></div>
@@ -279,7 +261,6 @@
       </button>
     </div>
 
-    <!-- AI Recommendation -->
     <div class="card">
       <div class="card-label">AI Strategic Recommendation</div>
       <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6;">Get a senior PM's perspective on your prioritisation — what to build, what to cut, and why.</p>
@@ -313,7 +294,6 @@ let currentFeatures = [];
 let scatterChart = null;
 let manualRowCount = 0;
 
-// ─── MODE ───────────────────────────────────────────
 function setMode(mode) {
   currentMode = mode;
   document.getElementById('ai-mode').style.display = mode === 'ai' ? 'block' : 'none';
@@ -324,7 +304,6 @@ function setMode(mode) {
   document.getElementById('manualKeySection').style.display = mode === 'manual' ? 'block' : 'none';
 }
 
-// ─── API KEY ─────────────────────────────────────────
 function toggleKey() {
   const input = document.getElementById('apiKey');
   const btn = document.getElementById('toggleBtn');
@@ -365,7 +344,6 @@ if (savedKey) {
   document.getElementById('savedBadge').style.display = 'inline';
 }
 
-// ─── MANUAL MODE ────────────────────────────────────
 function addFeatureRow(name='', reach='', impact='', conf='', effort='', align='') {
   manualRowCount++;
   const id = manualRowCount;
@@ -427,7 +405,6 @@ function loadManualSample() {
   samples.forEach(s => addFeatureRow(...s));
 }
 
-// ─── SCORING ─────────────────────────────────────────
 function riceScore(r, i, c, e) {
   return Math.round((r * i * (c / 100)) / e * 10) / 10;
 }
@@ -468,11 +445,9 @@ function calcPortfolioGrade(features) {
   return { grade: 'D', label: 'Revisit Strategy', color: '#e05c5c', desc: 'Too many high-effort, low-impact features. Significant pruning recommended before next sprint planning.' };
 }
 
-// ─── RENDER RESULTS ──────────────────────────────────
 function renderResults(features) {
   const grade = calcPortfolioGrade(features);
 
-  // Grade banner
   document.getElementById('gradeLetter').textContent = grade.grade;
   document.getElementById('gradeSub').textContent = grade.label;
   document.getElementById('gradeCircle').style.borderColor = grade.color;
@@ -491,7 +466,6 @@ function renderResults(features) {
     <span class="pill" style="color:var(--muted);border-color:var(--border);background:transparent">${features.length} total features</span>
   `;
 
-  // Table
   const tbody = document.getElementById('priorityTableBody');
   tbody.innerHTML = '';
   features.forEach((f, i) => {
@@ -505,7 +479,6 @@ function renderResults(features) {
     tbody.appendChild(row);
   });
 
-  // Scatter chart
   drawScatter(features);
 
   document.getElementById('results').classList.add('show');
@@ -562,7 +535,6 @@ function drawScatter(features) {
     }
   });
 
-  // Quadrant labels
   setTimeout(() => {
     const canvas = document.getElementById('scatterChart');
     const ctx2 = canvas.getContext('2d');
@@ -576,7 +548,6 @@ function drawScatter(features) {
   }, 100);
 }
 
-// ─── AI SCORING ──────────────────────────────────────
 async function runAIScoring() {
   const key = getKey();
   if (!key) { alert('Please paste your OpenRouter API key first.'); return; }
@@ -654,7 +625,6 @@ function loadAISample() {
   document.getElementById('teamContext').value = '4 engineers, 2-week sprints';
 }
 
-// ─── AI RECOMMENDATION ───────────────────────────────
 async function getAIRecommendation() {
   const key = getKey();
   if (!key) { alert('Please paste your OpenRouter API key.'); return; }
@@ -708,258 +678,188 @@ No bullet points. No headers. Plain paragraphs only. Be direct and opinionated.`
   btn.disabled = false; btn.innerHTML = '✦ Get Recommendation';
 }
 
-// ─── EXPORT PDF ──────────────────────────────────────
+// ─── EXPORT PDF (FIXED) ──────────────────────────────────────────────────────
 async function exportPDF() {
   if (!currentFeatures.length) { alert('Please score features first.'); return; }
   const btn = document.getElementById('exportBtn');
-  btn.textContent = 'Generating...';
+  btn.innerHTML = '<span style="font-size:18px;">⏳</span> Generating...';
   btn.disabled = true;
+
+  // Wait a tick so the chart is fully rendered before we capture it
+  await new Promise(r => setTimeout(r, 200));
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const W = 210, margin = 18, contentW = W - margin * 2;
   let y = 0;
 
-  // Helper function to convert hex to RGB
+  // ── helpers ──
   function hexToRgb(hex) {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [0, 0, 0];
+    const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return r ? [parseInt(r[1],16), parseInt(r[2],16), parseInt(r[3],16)] : [0,0,0];
   }
-
-  // Helper functions
-  function setFont(style, size, color) {
+  function fill(hex) { const [r,g,b] = hexToRgb(hex); doc.setFillColor(r,g,b); }
+  function stroke(hex) { const [r,g,b] = hexToRgb(hex); doc.setDrawColor(r,g,b); }
+  function textColor(hex) { const [r,g,b] = hexToRgb(hex); doc.setTextColor(r,g,b); }
+  function setFont(style, size, hex) {
     doc.setFont('helvetica', style);
     doc.setFontSize(size);
-    const rgb = hexToRgb(color || '#1a1814');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+    if (hex) textColor(hex);
   }
-  function addLine(color, thickness) {
-    const rgb = hexToRgb(color || '#e0ddd8');
-    doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
+  function addLine(colorHex, thickness) {
+    stroke(colorHex || '#d8d5d0');
     doc.setLineWidth(thickness || 0.3);
     doc.line(margin, y, W - margin, y);
-    y += 4;
+    y += 5;
   }
   function checkPage(needed) {
-    if (y + needed > 270) { doc.addPage(); y = 20; }
+    if (y + needed > 272) { doc.addPage(); y = 20; }
   }
 
   // ── COVER HEADER ──
-  let rgb = hexToRgb('#0d0c0a');
-  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-  doc.rect(0, 0, W, 48, 'F');
-  rgb = hexToRgb('#f5a623');
-  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-  doc.rect(0, 44, W, 4, 'F');
+  fill('#0d0c0a'); doc.rect(0, 0, W, 48, 'F');
+  fill('#f5a623'); doc.rect(0, 44, W, 4, 'F');
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(26);
-  rgb = hexToRgb('#f0ece4');
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  doc.text('FeaturePulse', margin, 22);
-
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
-  rgb = hexToRgb('#7a7568');
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  doc.text('Feature Prioritisation Report', margin, 32);
-
-  doc.setFontSize(10);
-  rgb = hexToRgb('#4a4840');
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  doc.text(new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }), W - margin, 32, { align: 'right' });
+  setFont('bold', 26, '#f0ece4'); doc.text('FeaturePulse', margin, 22);
+  setFont('normal', 11, '#7a7568'); doc.text('Feature Prioritisation Report', margin, 32);
+  setFont('normal', 10, '#4a4840');
+  doc.text(new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }), W - margin, 32, { align:'right' });
 
   y = 60;
 
   // ── GRADE SUMMARY ──
   const gradeLetter = document.getElementById('gradeLetter').textContent;
-  const gradeTitle = document.getElementById('gradeTitle').textContent;
-  const gradeDesc = document.getElementById('gradeDesc').textContent;
-  const gradeColor = gradeLetter === 'A' ? '#5ce07a' : gradeLetter === 'B' ? '#f5a623' : gradeLetter === 'C' ? '#5ca8e0' : '#e05c5c';
+  const gradeTitle  = document.getElementById('gradeTitle').textContent;
+  const gradeDesc   = document.getElementById('gradeDesc').textContent;
+  const gradeColor  = gradeLetter === 'A' ? '#5ce07a' : gradeLetter === 'B' ? '#f5a623' : gradeLetter === 'C' ? '#5ca8e0' : '#e05c5c';
 
-  // Grade circle
-  rgb = hexToRgb(gradeColor);
-  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-  doc.circle(margin + 10, y + 6, 10, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  rgb = hexToRgb('#0d0c0a');
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  doc.text(gradeLetter, margin + 10, y + 10, { align: 'center' });
+  // Grade circle — use ellipse instead of circle (more compatible)
+  fill(gradeColor); doc.ellipse(margin + 10, y + 6, 10, 10, 'F');
+  setFont('bold', 16, '#0d0c0a');
+  doc.text(gradeLetter, margin + 10, y + 10, { align:'center' });
 
-  // Grade info
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(14);
-  rgb = hexToRgb('#1a1814');
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  doc.text(gradeTitle, margin + 26, y + 4);
-
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  rgb = hexToRgb('#6a6560');
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+  setFont('bold', 14, '#1a1814'); doc.text(gradeTitle, margin + 26, y + 4);
+  setFont('normal', 10, '#6a6560');
   const descLines = doc.splitTextToSize(gradeDesc, contentW - 30);
   doc.text(descLines, margin + 26, y + 11);
 
-  y += 30;
-  addLine('#e0ddd8', 0.3);
+  y += 32;
+  addLine('#d8d5d0', 0.3);
 
   // ── PRIORITY TABLE ──
-  setFont('bold', 13, '#1a1814');
-  doc.text('Priority Stack Ranking', margin, y);
-  y += 8;
+  setFont('bold', 13, '#1a1814'); doc.text('Priority Stack Ranking', margin, y); y += 8;
 
-  // Table header
-  rgb = hexToRgb('#1e1c18');
-  doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-  doc.rect(margin, y, contentW, 8, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8);
-  rgb = hexToRgb('#f5a623');
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  doc.text('#', margin + 3, y + 5.5);
-  doc.text('Feature', margin + 12, y + 5.5);
-  doc.text('RICE', margin + 100, y + 5.5);
-  doc.text('Tier', margin + 120, y + 5.5);
-  doc.text('Score', margin + 152, y + 5.5);
+  // Header row
+  fill('#1e1c18'); doc.rect(margin, y, contentW, 8, 'F');
+  setFont('bold', 8, '#f5a623');
+  doc.text('#',       margin + 3,   y + 5.5);
+  doc.text('Feature', margin + 12,  y + 5.5);
+  doc.text('Score',   margin + 100, y + 5.5);
+  doc.text('Tier',    margin + 120, y + 5.5);
+  doc.text('Bar',     margin + 155, y + 5.5);
   y += 10;
 
-  // Table rows
+  const maxScore = Math.max(...currentFeatures.map(f => f.weighted));
+
   currentFeatures.forEach((f, i) => {
-    checkPage(14);
-    const rowBg = i % 2 === 0 ? '#faf9f7' : '#ffffff';
-    rgb = hexToRgb(rowBg);
-    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-    doc.rect(margin, y - 1, contentW, 12, 'F');
+    checkPage(16);
+    // Alternating row background
+    fill(i % 2 === 0 ? '#f7f6f4' : '#ffffff');
+    doc.rect(margin, y - 1, contentW, 14, 'F');
 
     // Rank
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    rgb = hexToRgb(i < 3 ? '#f5a623' : '#9a9590');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-    doc.text(String(f.rank), margin + 4, y + 7);
+    setFont('bold', 11, i < 3 ? '#f5a623' : '#9a9590');
+    doc.text(String(f.rank), margin + 4, y + 8);
 
-    // Name
-    doc.setFont('helvetica', i < 3 ? 'bold' : 'normal');
-    doc.setFontSize(9);
-    rgb = hexToRgb('#1a1814');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-    const nameShort = f.name.length > 32 ? f.name.substring(0, 32) + '...' : f.name;
-    doc.text(nameShort, margin + 12, y + 5);
+    // Feature name
+    setFont(i < 3 ? 'bold' : 'normal', 9, '#1a1814');
+    const nameStr = f.name.length > 34 ? f.name.substring(0, 34) + '…' : f.name;
+    doc.text(nameStr, margin + 12, y + 5);
 
-    // RICE sub info
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
-    rgb = hexToRgb('#9a9590');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-    doc.text('R:' + f.reach + ' I:' + f.impact + ' C:' + f.confidence + '% E:' + f.effort + ' A:' + f.alignment, margin + 12, y + 10);
+    // Sub info
+    setFont('normal', 7, '#9a9590');
+    doc.text(`R:${f.reach}  I:${f.impact}  C:${f.confidence}%  E:${f.effort}  A:${f.alignment}`, margin + 12, y + 11);
 
-    // RICE score
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    rgb = hexToRgb(i === 0 ? '#f5a623' : '#1a1814');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-    doc.text(String(f.weighted), margin + 100, y + 7);
+    // Score
+    setFont('bold', 10, i === 0 ? '#f5a623' : '#1a1814');
+    doc.text(String(f.weighted), margin + 100, y + 8);
 
-    // Tier badge
-    const tierColors = { 'Do Now': '#5ce07a', 'Plan Next': '#f5a623', 'Do Later': '#5ca8e0', 'Reconsider': '#e05c5c' };
-    const tc = tierColors[f.tier] || '#9a9590';
-    const rgbTc = hexToRgb(tc);
-    rgb = hexToRgb(tc);
-    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-    doc.setDrawColor(255, 255, 255);
-    doc.setFillOpacity(0.13);
-    doc.roundedRect(margin + 116, y + 1, 32, 8, 2, 2, 'F');
-    doc.setFillOpacity(1);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-    doc.text(f.tier, margin + 119, y + 6);
+    // Tier badge (text only — no setFillOpacity needed)
+    const tierColors = { 'Do Now':'#2a7a3a', 'Plan Next':'#a06810', 'Do Later':'#2a5a8a', 'Reconsider':'#8a2a2a' };
+    setFont('bold', 7, tierColors[f.tier] || '#555');
+    doc.text(f.tier, margin + 120, y + 8);
 
-    // Score bar
-    rgb = hexToRgb('#e8e5e0');
-    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-    doc.rect(margin + 152, y + 2, 40, 4, 'F');
-    rgb = hexToRgb(i < 3 ? '#f5a623' : '#9a9590');
-    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-    const barW = (f.weighted / Math.max(...currentFeatures.map(x => x.weighted))) * 40;
-    doc.rect(margin + 152, y + 2, barW, 4, 'F');
+    // Score bar (solid, no opacity tricks)
+    fill('#e0ddd8'); doc.rect(margin + 152, y + 4, 40, 4, 'F');
+    fill(i < 3 ? '#f5a623' : '#b0ada8');
+    doc.rect(margin + 152, y + 4, (f.weighted / maxScore) * 40, 4, 'F');
 
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
-    rgb = hexToRgb('#9a9590');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-    doc.text(String(Math.round(f.weighted)), margin + 157, y + 6);
-
-    y += 14;
+    y += 15;
   });
 
   y += 4;
-  addLine();
+  addLine('#d8d5d0', 0.3);
 
   // ── QUADRANT SUMMARY ──
   checkPage(40);
-  setFont('bold', 13, '#1a1814');
-  doc.text('Feature Matrix Summary', margin, y);
-  y += 8;
+  setFont('bold', 13, '#1a1814'); doc.text('Feature Matrix Summary', margin, y); y += 8;
 
   const quadrants = [
-    { label: 'Do Now', color: '#5ce07a', features: currentFeatures.filter(f => f.tier === 'Do Now') },
-    { label: 'Plan Next', color: '#f5a623', features: currentFeatures.filter(f => f.tier === 'Plan Next') },
-    { label: 'Do Later', color: '#5ca8e0', features: currentFeatures.filter(f => f.tier === 'Do Later') },
-    { label: 'Reconsider', color: '#e05c5c', features: currentFeatures.filter(f => f.tier === 'Reconsider') },
+    { label:'Do Now',    color:'#276b35', bg:'#eafaf0', features: currentFeatures.filter(f => f.tier === 'Do Now') },
+    { label:'Plan Next', color:'#a06810', bg:'#fff8ec', features: currentFeatures.filter(f => f.tier === 'Plan Next') },
+    { label:'Do Later',  color:'#2a5a8a', bg:'#eef4fb', features: currentFeatures.filter(f => f.tier === 'Do Later') },
+    { label:'Reconsider',color:'#8a2a2a', bg:'#fdeaea', features: currentFeatures.filter(f => f.tier === 'Reconsider') },
   ];
 
   quadrants.forEach(q => {
     if (!q.features.length) return;
-    checkPage(16);
-    rgb = hexToRgb(q.color);
-    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-    doc.setFillOpacity(0.09);
-    doc.roundedRect(margin, y, contentW, 12 + q.features.length * 6, 3, 3, 'F');
-    doc.setFillOpacity(1);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    rgb = hexToRgb(q.color);
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-    doc.text(q.label + ' (' + q.features.length + ')', margin + 4, y + 7);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    rgb = hexToRgb('#4a4840');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+    const blockH = 12 + q.features.length * 7;
+    checkPage(blockH + 6);
+    fill(q.bg); stroke(q.color);
+    doc.setLineWidth(0.2);
+    doc.roundedRect(margin, y, contentW, blockH, 3, 3, 'FD');
+    setFont('bold', 9, q.color);
+    doc.text(`${q.label} (${q.features.length})`, margin + 5, y + 8);
+    setFont('normal', 8, '#4a4840');
     q.features.forEach((f, i) => {
-      doc.text('· ' + f.name + ' (Score: ' + f.weighted + ')', margin + 8, y + 13 + i * 6);
+      doc.text(`· ${f.name}  (Score: ${f.weighted})`, margin + 9, y + 15 + i * 7);
     });
-    y += 14 + q.features.length * 6 + 4;
+    y += blockH + 5;
   });
 
-  // ── EFFORT VS IMPACT MATRIX (chart screenshot) ──
-  checkPage(90);
-  addLine();
-  setFont('bold', 13, '#1a1814');
-  doc.text('Effort vs Impact Matrix', margin, y);
-  y += 6;
-  try {
-    const canvas = document.getElementById('scatterChart');
-    const chartImg = canvas.toDataURL('image/png');
-    const chartH = 70;
-    const chartW = contentW;
-    doc.addImage(chartImg, 'PNG', margin, y, chartW, chartH);
-    y += chartH + 6;
-  } catch(e) { y += 4; }
+  // ── CHART IMAGE ──
+  checkPage(85);
+  addLine('#d8d5d0', 0.3);
+  setFont('bold', 13, '#1a1814'); doc.text('Effort vs Impact Matrix', margin, y); y += 6;
 
-  // ── AI INSIGHT ──
+  try {
+    // Draw chart onto a white-background offscreen canvas so it exports cleanly
+    const srcCanvas = document.getElementById('scatterChart');
+    const offscreen = document.createElement('canvas');
+    offscreen.width  = srcCanvas.width;
+    offscreen.height = srcCanvas.height;
+    const octx = offscreen.getContext('2d');
+    octx.fillStyle = '#ffffff';
+    octx.fillRect(0, 0, offscreen.width, offscreen.height);
+    octx.drawImage(srcCanvas, 0, 0);
+
+    const chartImg = offscreen.toDataURL('image/png');
+    const chartH = 72;
+    doc.addImage(chartImg, 'PNG', margin, y, contentW, chartH);
+    y += chartH + 6;
+  } catch(e) {
+    setFont('normal', 9, '#9a9590');
+    doc.text('(Chart could not be rendered)', margin, y);
+    y += 10;
+  }
+
+  // ── AI RECOMMENDATION ──
   const insightText = document.getElementById('insightText').textContent;
-  if (insightText && insightText !== 'Thinking...') {
-    checkPage(20);
-    addLine();
-    setFont('bold', 13, '#1a1814');
-    doc.text('AI Strategic Recommendation', margin, y);
-    y += 8;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    rgb = hexToRgb('#3a3830');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+  if (insightText && insightText !== 'Thinking...' && insightText.length > 10) {
+    checkPage(24);
+    addLine('#d8d5d0', 0.3);
+    setFont('bold', 13, '#1a1814'); doc.text('AI Strategic Recommendation', margin, y); y += 8;
+    setFont('normal', 9, '#3a3830');
     const lines = doc.splitTextToSize(insightText, contentW);
     lines.forEach(line => {
       checkPage(6);
@@ -968,26 +868,21 @@ async function exportPDF() {
     });
   }
 
-  // ── FOOTER on each page ──
+  // ── FOOTER on every page ──
   const pageCount = doc.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
-    rgb = hexToRgb('#0d0c0a');
-    doc.setFillColor(rgb[0], rgb[1], rgb[2]);
-    doc.rect(0, 285, W, 12, 'F');
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    rgb = hexToRgb('#4a4840');
-    doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+    fill('#0d0c0a'); doc.rect(0, 284, W, 13, 'F');
+    setFont('normal', 8, '#4a4840');
     doc.text('FeaturePulse · Generated by Sanjana M', margin, 292);
-    doc.text('Page ' + i + ' of ' + pageCount, W - margin, 292, { align: 'right' });
+    doc.text(`Page ${i} of ${pageCount}`, W - margin, 292, { align:'right' });
   }
 
-  // Save
+  // ── SAVE ──
   const dateStr = new Date().toISOString().split('T')[0];
-  doc.save('FeaturePulse-Report-' + dateStr + '.pdf');
+  doc.save(`FeaturePulse-Report-${dateStr}.pdf`);
 
-  btn.textContent = '↓ Export PDF Report';
+  btn.innerHTML = '<span style="font-size:18px;">↓</span> Export PDF';
   btn.disabled = false;
 }
 
